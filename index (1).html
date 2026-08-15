@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Victoria D'Ercole — Data Analyst</title>
+<meta name="description" content="Portfolio of Victoria D'Ercole, Data Science student and Junior Data Analyst. Python, SQL, BigQuery, ETL.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E1416;
+    --bg-raised:#161D20;
+    --bg-raised-2:#1C2427;
+    --line:#2A3438;
+    --line-soft:#212A2D;
+    --text:#E7ECE9;
+    --text-dim:#8FA19D;
+    --text-faint:#546361;
+    --teal:#7DD3C0;
+    --teal-dim:#4A8A79;
+    --amber:#E8A33D;
+    --amber-dim:#9C7134;
+    --font-mono:'IBM Plex Mono',monospace;
+    --font-sans:'IBM Plex Sans',sans-serif;
+    --radius:6px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;}
+  }
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-sans);
+    line-height:1.6;
+    font-size:16px;
+  }
+  a{color:inherit;}
+  ::selection{background:var(--teal-dim);color:var(--bg);}
+
+  .wrap{max-width:840px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(14,20,22,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  header .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;}
+  .logo{
+    font-family:var(--font-mono);font-size:14px;font-weight:500;color:var(--text);
+    text-decoration:none;white-space:nowrap;
+  }
+  .logo span{color:var(--teal);}
+  nav{display:flex;gap:28px;}
+  nav a{
+    font-family:var(--font-mono);font-size:13px;color:var(--text-dim);text-decoration:none;
+    transition:color .15s ease;
+  }
+  nav a:hover, nav a:focus-visible{color:var(--teal);}
+  nav a:focus-visible{outline:1px solid var(--teal);outline-offset:4px;border-radius:2px;}
+  @media (max-width:560px){ nav{gap:16px;} nav a{font-size:12px;} }
+
+  /* ---------- hero / terminal ---------- */
+  .hero{padding:64px 0 40px;}
+  .terminal{
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .terminal-bar{
+    display:flex;align-items:center;gap:8px;
+    padding:10px 14px;
+    border-bottom:1px solid var(--line);
+    background:var(--bg-raised-2);
+  }
+  .dot{width:10px;height:10px;border-radius:50%;}
+  .dot.r{background:#E2635B;} .dot.y{background:#E8B84B;} .dot.g{background:#5DBE7E;}
+  .terminal-title{
+    font-family:var(--font-mono);font-size:12px;color:var(--text-faint);
+    margin-left:6px;
+  }
+  .terminal-body{padding:22px 20px 26px;font-family:var(--font-mono);font-size:14px;}
+  .prompt-line{color:var(--text-dim);}
+  .prompt-line .user{color:var(--teal);}
+  #query{white-space:pre;color:var(--text);}
+  .kw{color:var(--teal);}
+  .str{color:var(--amber);}
+  .cursor{
+    display:inline-block;width:8px;height:16px;background:var(--teal);
+    vertical-align:middle;margin-left:2px;animation:blink 1s step-end infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+  .results{
+    margin-top:18px;
+    border-top:1px dashed var(--line);
+    padding-top:16px;
+    opacity:0;
+    transform:translateY(6px);
+    transition:opacity .5s ease, transform .5s ease;
+  }
+  .results.show{opacity:1;transform:none;}
+  .results-meta{color:var(--text-faint);font-size:12px;margin-bottom:10px;}
+  table.result-table{width:100%;border-collapse:collapse;font-size:13px;}
+  table.result-table th{
+    text-align:left;color:var(--text-faint);font-weight:400;
+    padding:4px 12px 8px 0;border-bottom:1px solid var(--line);
+    font-size:11px;letter-spacing:.03em;
+  }
+  table.result-table td{padding:6px 12px 6px 0;color:var(--text);white-space:nowrap;}
+  table.result-table td.status{color:var(--teal);}
+
+  .hero-tagline{
+    margin-top:28px;
+    font-size:17px;
+    color:var(--text-dim);
+    max-width:60ch;
+  }
+  .hero-tagline strong{color:var(--text);font-weight:500;}
+
+  /* ---------- section labels ---------- */
+  .sec{padding:56px 0;border-top:1px solid var(--line-soft);}
+  .sec-label{
+    font-family:var(--font-mono);font-size:12px;color:var(--teal-dim);
+    margin-bottom:18px;
+  }
+  .sec-label::before{content:'-- ';color:var(--text-faint);}
+  h2{font-size:22px;font-weight:500;margin-bottom:16px;}
+
+  /* ---------- about ---------- */
+  .about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:start;}
+  .about-grid p{color:var(--text-dim);margin-bottom:14px;}
+  .facts{
+    font-family:var(--font-mono);font-size:13px;
+    background:var(--bg-raised);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px 18px;
+  }
+  .facts dt{color:var(--text-faint);margin-top:10px;}
+  .facts dt:first-child{margin-top:0;}
+  .facts dd{color:var(--text);margin-left:0;}
+  @media (max-width:640px){ .about-grid{grid-template-columns:1fr;} }
+
+  /* ---------- skills ---------- */
+  .skills-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;
+  }
+  .skill-card{
+    background:var(--bg-raised);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px 18px;
+  }
+  .skill-card h3{
+    font-family:var(--font-mono);font-size:12px;color:var(--amber);font-weight:500;
+    margin-bottom:10px;letter-spacing:.02em;
+  }
+  .skill-card ul{list-style:none;}
+  .skill-card li{
+    font-size:14px;color:var(--text-dim);padding:3px 0;
+  }
+  .skill-card li::before{content:'· ';color:var(--text-faint);}
+
+  /* ---------- projects ---------- */
+  .project{
+    display:grid;grid-template-columns:auto 1fr;gap:20px;
+    padding:22px 0;border-top:1px solid var(--line-soft);
+  }
+  .project:first-of-type{border-top:none;}
+  .project-idx{
+    font-family:var(--font-mono);font-size:12px;color:var(--text-faint);padding-top:3px;
+  }
+  .project h3{font-size:17px;font-weight:500;margin-bottom:6px;}
+  .project h3 a{text-decoration:none;}
+  .project h3 a:hover{color:var(--teal);}
+  .project p{color:var(--text-dim);font-size:14px;margin-bottom:10px;max-width:58ch;}
+  .project ul.highlights{list-style:none;margin-bottom:12px;}
+  .project ul.highlights li{
+    font-size:13.5px;color:var(--text-dim);padding-left:14px;position:relative;padding-bottom:4px;
+  }
+  .project ul.highlights li::before{content:'›';position:absolute;left:0;color:var(--teal-dim);}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+  .tag{
+    font-family:var(--font-mono);font-size:11px;color:var(--text-dim);
+    border:1px solid var(--line);border-radius:4px;padding:3px 8px;
+  }
+  .project-link{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:var(--font-mono);font-size:12.5px;color:var(--teal);text-decoration:none;
+    border-bottom:1px solid transparent;
+  }
+  .project-link:hover{border-bottom-color:var(--teal);}
+  @media (max-width:560px){ .project{grid-template-columns:1fr;} .project-idx{display:none;} }
+
+  /* ---------- contact ---------- */
+  .contact-terminal{
+    background:var(--bg-raised);border:1px solid var(--line);border-radius:10px;
+    padding:22px 24px;font-family:var(--font-mono);font-size:14px;
+  }
+  .contact-line{padding:6px 0;color:var(--text-dim);}
+  .contact-line .user{color:var(--teal);}
+  .contact-line .flag{color:var(--amber);}
+  .contact-line a{color:var(--text);text-decoration:none;border-bottom:1px solid var(--line);}
+  .contact-line a:hover{color:var(--teal);border-bottom-color:var(--teal);}
+
+  footer{padding:32px 0 48px;text-align:center;}
+  footer p{font-family:var(--font-mono);font-size:12px;color:var(--text-faint);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="#top" class="logo">victoria<span>.</span>dercole()</a>
+    <nav>
+      <a href="#about">about</a>
+      <a href="#skills">skills</a>
+      <a href="#projects">projects</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero wrap">
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="terminal-title">victoria@data — bash</span>
+      </div>
+      <div class="terminal-body">
+        <p class="prompt-line"><span class="user">victoria@data</span>:~$ bq query</p>
+        <p id="query"></p>
+        <div class="results" id="results">
+          <p class="results-meta">1 row returned</p>
+          <table class="result-table">
+            <thead>
+              <tr><th>name</th><th>role</th><th>location</th><th>status</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Victoria D'Ercole</td>
+                <td>Junior Data Analyst</td>
+                <td>Buenos Aires, AR</td>
+                <td class="status">available</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <p class="hero-tagline">
+      <strong>Data Science student</strong> focused on Data Engineering and Analytics.
+      I build pipelines, clean and transform data, and turn queries into decisions — with Python, SQL and BigQuery.
+    </p>
+  </section>
+
+  <section class="sec wrap" id="about">
+    <p class="sec-label">about</p>
+    <div class="about-grid">
+      <div>
+        <p>I work with <strong style="color:var(--text)">Python and SQL</strong> to build data pipelines, clean and transform datasets, and generate insights through dashboards and structured analysis.</p>
+        <p>I have hands-on experience with real datasets, designing ETL processes, and querying data in BigQuery.</p>
+        <p>My goal is to join a team as a Data Analyst, contributing reliable data solutions and continuing to grow professionally.</p>
+      </div>
+      <dl class="facts">
+        <dt>role</dt><dd>Junior Data Analyst</dd>
+        <dt>focus</dt><dd>Data Engineering & Analytics</dd>
+        <dt>location</dt><dd>Buenos Aires, AR</dd>
+        <dt>stack</dt><dd>Python · SQL · BigQuery</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section class="sec wrap" id="skills">
+    <p class="sec-label">skills</p>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h3>programming & querying</h3>
+        <ul><li>Python</li><li>SQL</li><li>R (basic)</li></ul>
+      </div>
+      <div class="skill-card">
+        <h3>data engineering & analytics</h3>
+        <ul><li>ETL / data pipelines</li><li>Data cleaning & transformation</li><li>SQL modeling</li><li>Exploratory data analysis</li></ul>
+      </div>
+      <div class="skill-card">
+        <h3>databases & cloud</h3>
+        <ul><li>BigQuery</li><li>MySQL</li><li>SQLite</li><li>Google Cloud Platform</li></ul>
+      </div>
+      <div class="skill-card">
+        <h3>visualization & bi</h3>
+        <ul><li>Looker Studio</li></ul>
+      </div>
+      <div class="skill-card">
+        <h3>tools</h3>
+        <ul><li>Git & GitHub</li><li>Jupyter Notebook</li><li>VS Code</li><li>Linux (Ubuntu)</li><li>Excel / Google Sheets</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec wrap" id="projects">
+    <p class="sec-label">projects</p>
+
+    <article class="project">
+      <span class="project-idx">01</span>
+      <div>
+        <h3><a href="https://github.com/victoriadercole1209/argentina_ideal_infraestructura" target="_blank" rel="noopener">Argentina Ideal — Stock & Sales Analysis</a></h3>
+        <div class="tags">
+          <span class="tag">Python</span><span class="tag">SQL</span><span class="tag">BigQuery</span><span class="tag">Looker Studio</span>
+        </div>
+        <ul class="highlights">
+          <li>Designed and queried datasets in BigQuery</li>
+          <li>Analyzed stock distribution and sales by province</li>
+          <li>Built dashboards to identify inventory inefficiencies</li>
+        </ul>
+        <a class="project-link" href="https://github.com/victoriadercole1209/argentina_ideal_infraestructura" target="_blank" rel="noopener">view repository →</a>
+      </div>
+    </article>
+
+    <article class="project">
+      <span class="project-idx">02</span>
+      <div>
+        <h3><a href="https://github.com/victoriadercole1209/diabetes_classification_project" target="_blank" rel="noopener">Diabetes Classification</a></h3>
+        <div class="tags">
+          <span class="tag">Python</span><span class="tag">scikit-learn</span>
+        </div>
+        <ul class="highlights">
+          <li>Binary classification model using Logistic Regression</li>
+          <li>Evaluation with metrics for imbalanced datasets</li>
+          <li>End-to-end machine learning workflow</li>
+        </ul>
+        <a class="project-link" href="https://github.com/victoriadercole1209/diabetes_classification_project" target="_blank" rel="noopener">view repository →</a>
+      </div>
+    </article>
+
+    <article class="project">
+      <span class="project-idx">03</span>
+      <div>
+        <h3><a href="https://github.com/victoriadercole1209/housing_price_prediction" target="_blank" rel="noopener">Housing Price Prediction</a></h3>
+        <div class="tags">
+          <span class="tag">Python</span><span class="tag">scikit-learn</span>
+        </div>
+        <ul class="highlights">
+          <li>Linear regression model</li>
+          <li>Exploratory data analysis</li>
+          <li>Model evaluation and interpretation</li>
+        </ul>
+        <a class="project-link" href="https://github.com/victoriadercole1209/housing_price_prediction" target="_blank" rel="noopener">view repository →</a>
+      </div>
+    </article>
+  </section>
+
+  <section class="sec wrap" id="contact">
+    <p class="sec-label">contact</p>
+    <div class="contact-terminal">
+      <p class="contact-line"><span class="user">victoria@data</span>:~$ contact <span class="flag">--email</span> <a href="mailto:victoriadercole1209@gmail.com">victoriadercole1209@gmail.com</a></p>
+      <p class="contact-line"><span class="user">victoria@data</span>:~$ contact <span class="flag">--linkedin</span> <a href="https://www.linkedin.com/in/maria-victoria-dercole/" target="_blank" rel="noopener">/in/maria-victoria-dercole</a></p>
+      <p class="contact-line"><span class="user">victoria@data</span>:~$ contact <span class="flag">--github</span> <a href="https://github.com/victoriadercole1209" target="_blank" rel="noopener">/victoriadercole1209</a></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>victoria.dercole() — built with SQL on the mind</p>
+</footer>
+
+<script>
+(function(){
+  var fullText = "SELECT name, role, location\nFROM victoria\nWHERE status = 'available';";
+  var el = document.getElementById('query');
+  var resultsEl = document.getElementById('results');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function highlight(text){
+    return text
+      .replace(/\b(SELECT|FROM|WHERE)\b/g, '<span class="kw">$1</span>')
+      .replace(/('available')/g, '<span class="str">$1</span>');
+  }
+
+  if(reduceMotion){
+    el.innerHTML = highlight(fullText);
+    resultsEl.classList.add('show');
+    return;
+  }
+
+  var i = 0;
+  el.innerHTML = '<span class="cursor"></span>';
+  function type(){
+    if(i <= fullText.length){
+      el.innerHTML = highlight(fullText.slice(0, i)) + '<span class="cursor"></span>';
+      i++;
+      setTimeout(type, 18);
+    } else {
+      setTimeout(function(){
+        resultsEl.classList.add('show');
+      }, 200);
+    }
+  }
+  setTimeout(type, 400);
+})();
+</script>
+
+</body>
+</html>
